@@ -1,0 +1,113 @@
+﻿@page
+@model WWebForm.EmployeeModel
+@{
+}
+
+
+<form method="post">
+    <div class="form-group">
+        <label for="Label1">Customer Name:</label>
+
+        <input type="text" id="txtCustName" name="Customer Name" class="form-control" readonly required value="@Model.txtCustName" />
+
+    </div>
+    <div class="form-group">
+        <label for="Label2">Account No:</label>
+        <input type="text" id="email" name="txtAccNo" class="form-control" readonly required value="@Model.txtAccNo" />
+    </div>
+    <div class="form-group">
+        <label for="Label3">Billing Cycle:</label>
+        <input type="text" id="txtBillCycle" name="txtBillCycle" class="form-control" readonly required value="@Model.txtBillCycle"></input>
+    </div>
+
+    <div class="form-group">
+        <label for="Label4">Minimum Amount:</label>
+        <input type="text" id="txtMinAmt" name="txtMinAmt" class="form-control" readonly required value="@Model.txtMinAmt"></input>
+    </div>
+
+    @*<div class="form-group">
+            <label for="ddlDisposition">Disposition:</label>
+            <select id="ddlDisposition" asp-for="SelectedDisposition" class="form-control" onchange="ddlDispositionChange()">
+                <option value="">-- Select --</option>
+                @foreach (var item in Model.DispositionList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>*@
+
+    @*<div class="form-group">
+        <label for="ddlDisposition">Disposition:</label>
+        <select id="ddlDisposition" asp-for="SelectedDisposition" class="form-control" onchange="ddlDispositionChange()">
+            <option value="">-- Select --</option>
+            @foreach (var item in Model.DispositionList)
+            {
+                <option value="@item.Value">@item.Text</option>
+            }
+        </select>
+    </div>*@
+
+    <div class="form-group">
+        <label for="ddlDisposition">Disposition:</label>
+        <select id="ddlDisposition"  asp-for="SelectedDisposition" class="form-control" onchange="ddlDispositionChange()">
+            <option value="">-- Select --</option>
+            @for (int i = 0; i < Model.DispositionList.Count; i++)
+            {
+                <option value="@Model.DispositionList[i].Value">@Model.DispositionList[i].Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="txtSelectedDate">Select a Date:</label>
+        <input type="date" class="form-control" id="txtSelectedDate" name="txtNRDDate" asp-for="txtNRDDate" onchange="dateSelectionChanged()" />
+    </div>
+
+    <div class="col-xs-12" style="display: initial">
+        <label>*Remarks</label>
+        <textarea id="txtRemarks" class="form-control" rows="4" name="Remarks" readonly="false"></textarea>
+    </div>
+    <div class="form-group">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function ddlDispositionChange() {
+            var selectedValue = document.getElementById("ddlDisposition").value;
+
+            $.ajax({
+                type: "POST",
+                url: "?handler=SelectedDisposition",
+                data: { SelectedDisposition: selectedValue },
+                success: function () {
+                },
+                error: function () {
+                }
+            });
+        };
+        function dateSelectionChanged() {
+            var txtNRDDate = document.getElementById("txtSelectedDate").value;
+
+            $.ajax({
+                type: "POST",
+                url: "?handler=DateSelectionChange",
+                data: { txtNRDDate: txtNRDDate },
+                success: function () {
+                    // Handle the response from the server if needed
+                },
+                error: function () {
+                    // Handle error if needed
+                }
+            });
+        }
+
+
+
+
+    </script>
+}
